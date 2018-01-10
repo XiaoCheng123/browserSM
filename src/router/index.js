@@ -36,23 +36,31 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
-    path: '/example',
+    path: '/studentBM',
     component: Layout,
     redirect: 'noredirect',
-    name: 'Example',
+    name: '学生信息管理',
     icon: 'zujian',
     children: [
-      { path: 'index', name: 'Form', icon: 'zonghe', component: _import('page/form') }
+      { path: 'searchStudent', name: '查找学生', icon: 'zonghe', component: _import('studentBM/searchStudent'), meta: { role: ['admin', 'editor'] } },
+      { path: 'addStudent', name: '添加学生', icon: 'zonghe', component: _import('studentBM/addStudent'), meta: { role: ['admin'] } },
+      { path: 'deleteStudent', name: '删除学生', icon: 'zonghe', component: _import('studentBM/deleteStudent'), meta: { role: ['admin'] } },
+      { path: 'reviseStudent', name: '修改学生', icon: 'zonghe', component: _import('studentBM/reviseStudent'), meta: { role: ['admin'] } }
     ]
   },
 
   {
-    path: '/table',
+    path: '/studentGM',
     component: Layout,
-    redirect: '/table/index',
-    icon: 'tubiao',
-    noDropdown: true,
-    children: [{ path: 'index', name: 'Table', component: _import('table/index'), meta: { role: ['admin'] }}]
+    redirect: 'noredirect',
+    name: '学生成绩管理',
+    icon: 'zujian',
+    children: [
+      { path: 'searchGrade', name: '查找成绩', icon: 'zonghe', component: _import('studentGM/searchGrade'), meta: { role: ['admin', 'editor'] } },
+      { path: 'setGrade', name: '添加成绩', icon: 'zonghe', component: _import('studentGM/setGrade'), meta: { role: ['admin'] } },
+      { path: 'deleteGrade', name: '删除成绩', icon: 'zonghe', component: _import('studentGM/deleteGrade'), meta: { role: ['admin'] } },
+      { path: 'reviseGrade', name: '修改成绩', icon: 'zonghe', component: _import('studentGM/reviseGrade'), meta: { role: ['admin'] } }
+    ]
   },
 
   { path: '*', redirect: '/404', hidden: true }
