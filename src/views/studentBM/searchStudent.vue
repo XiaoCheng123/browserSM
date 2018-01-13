@@ -3,17 +3,37 @@
     <search-student></search-student>
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="studentData"
         border
         style="width: 100%">
         <el-table-column
-          prop="date"
+          prop="Sno"
           label="学号"
           width="180">
         </el-table-column>
         <el-table-column
-        prop="Sname"
-        label="姓名">
+          prop="Sname"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="Ssex"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          prop="Sage"
+          label="年龄">
+        </el-table-column>
+        <el-table-column
+          prop="Scome"
+          label="入学时间">
+        </el-table-column>
+        <el-table-column
+          prop="Sdistrict"
+          label="家庭地址">
+        </el-table-column>
+        <el-table-column
+          prop="Sphone"
+          label="联系电话">
         </el-table-column>
       </el-table>
     </div>
@@ -28,6 +48,7 @@
         :total="400">
       </el-pagination>
     </div>
+    <button @click="getStudent"></button>
   </div>
 </template>
 
@@ -38,23 +59,8 @@
     data() {
       return {
         currentPage4: 4,
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        studentData: [
+        ]
       }
     },
     methods: {
@@ -63,10 +69,25 @@
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+      },
+      getStudent() {
+        const that = this
+        this.$axios.get('http://localhost:3000/searchStudent')
+          .then(function (response) {
+            console.log(response);
+            that.studentData = response.data.data
+            console.log(studentData)
+          })
+          .catch(function (response) {
+            console.log(response);
+          })
       }
     },
     components: {
       searchStudent
+    },
+    created: function () {
+      this.getStudent()
     }
   }
 </script>
