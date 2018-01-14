@@ -3,15 +3,14 @@
     <search-student></search-student>
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="studentData"
         border
         style="width: 100%">
         <el-table-column
-          label="日期"
+          label="学号"
           width="180">
           <template scope="scope">
-            <el-icon name="time"></el-icon>
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            <span style="margin-left: 10px">{{ scope.row.Sno }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -19,14 +18,15 @@
           width="180">
           <template scope="scope">
             <el-popover trigger="hover" placement="top">
-              <p>姓名: {{ scope.row.name }}</p>
-              <p>住址: {{ scope.row.address }}</p>
+              <p>姓名: {{ scope.row.Sname }}</p>
+              <p>住址: {{ scope.row.Sdistrist }}</p>
               <div slot="reference" class="name-wrapper">
-                <el-tag>{{ scope.row.name }}</el-tag>
+                <el-tag>{{ scope.row.Sname }}</el-tag>
               </div>
             </el-popover>
           </template>
         </el-table-column>
+
         <el-table-column label="操作">
           <template scope="scope">
             <el-button
@@ -37,6 +37,7 @@
               type="danger"
               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
+
         </el-table-column>
       </el-table>
     </div>
@@ -60,23 +61,8 @@
   export default {
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        studentData: [
+        ]
       }
     },
     methods: {
@@ -84,8 +70,30 @@
         console.log(index, row);
       },
       handleDelete(index, row) {
+        console.log(this.addStudent)
+        this.$axios({
+          method: 'post',
+          url: 'http://localhost:3000/deleteStudent',
+          data: this.studentData[index]
+        })
+        this.getStudent()
         console.log(index, row);
+      },
+      getStudent() {
+        const that = this
+        this.$axios.get('http://localhost:3000/searchStudent')
+          .then(function (response) {
+            console.log(response);
+            that.studentData = response.data.data
+            console.log(studentData)
+          })
+          .catch(function (response) {
+            console.log(response);
+          })
       }
+    },
+    created: function () {
+      this.getStudent()
     }
   }
 </script>
