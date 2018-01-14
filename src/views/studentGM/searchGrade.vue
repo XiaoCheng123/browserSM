@@ -28,7 +28,7 @@
           label="成绩">
         </el-table-column>
         <el-table-column
-          prop="Tnmae"
+          prop="Tname"
           label="指导老师">
         </el-table-column>
       </el-table>
