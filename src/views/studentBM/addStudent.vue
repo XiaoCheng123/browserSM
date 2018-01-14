@@ -33,8 +33,8 @@
       <el-form-item label="籍贯">
         <el-input v-model="addStudent.Sjiguan"></el-input>
       </el-form-item>
-      <el-form-item label="活动形式">
-        <el-input type="textarea" v-model="addStudent.Sdistrict"></el-input>
+      <el-form-item label="住址">
+        <el-input type="textarea" v-model="addStudent.Sdistrist"></el-input>
       </el-form-item>
       <el-form-item label="联系电话">
         <el-input v-model="addStudent.Sphone"></el-input>
@@ -62,7 +62,7 @@
           Scome: "",
           Sminzu: "",
           Sjiguan: "",
-          Sdistrict: "",
+          Sdistrist: "",
           Sphone: ""
         }
       }
