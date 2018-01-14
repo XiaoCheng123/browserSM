@@ -31,9 +31,6 @@
           <template scope="scope">
             <el-button
               size="small"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button
-              size="small"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
@@ -66,9 +63,6 @@
       }
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
       handleDelete(index, row) {
         console.log(this.addStudent)
         this.$axios({

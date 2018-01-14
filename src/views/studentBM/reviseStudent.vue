@@ -3,62 +3,87 @@
     <search-student></search-student>
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="studentData"
         border
         style="width: 100%">
         <el-table-column
-          fixed
-          prop="date"
-          label="日期"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="姓名"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="province"
-          label="省份"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="city"
-          label="市区"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="zip"
-          label="邮编"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
+          label="学号"
+          width="180">
           <template scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
+            <span style="margin-left: 10px">{{ scope.row.Sno }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="姓名"
+          width="180">
+          <template scope="scope">
+            <el-popover trigger="hover" placement="top">
+              <p>姓名: {{ scope.row.Sname }}</p>
+              <p>住址: {{ scope.row.Sdistrist }}</p>
+              <div slot="reference" class="name-wrapper">
+                <el-tag>{{ scope.row.Sname }}</el-tag>
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作">
+          <template scope="scope">
+            <el-button
+              size="small"
+              @click="handleEdit(scope.$index, scope.row)"
+              >编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <div class="block">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
-      </el-pagination>
-    </div>
+    <el-dialog title="修改学生信息" :visible.sync="dialogFormVisible">
+      <el-form :inline="true" :model="revieseStudent" class="demo-form-inline" :visible.sync="dialogFormVisible">
+        <el-form-item label="学号">
+          <el-input v-model="revieseStudent.Sno"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="revieseStudent.Sname"></el-input>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-select  v-model="revieseStudent.Ssex">
+            <el-option label="男" value="1"></el-option>
+            <el-option label="女" value="2"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="出生年月">
+          <el-date-picker type="date" placeholder="选择日期" v-model="revieseStudent.Sbirth"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="身份证号码">
+          <el-input v-model="revieseStudent.Sid"></el-input>
+        </el-form-item>
+        <el-form-item label="政治面貌">
+          <el-input v-model="revieseStudent.Spolitic"></el-input>
+        </el-form-item>
+
+        <el-form-item label="出生年月">
+          <el-date-picker type="date" placeholder="选择日期" v-model="revieseStudent.Scome"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="民族">
+          <el-input v-model="revieseStudent.Sminzu"></el-input>
+        </el-form-item>
+
+        <el-form-item label="籍贯">
+          <el-input v-model="revieseStudent.Sjiguan"></el-input>
+        </el-form-item>
+        <el-form-item label="住址">
+          <el-input type="textarea" v-model="revieseStudent.Sdistrist"></el-input>
+        </el-form-item>
+        <el-form-item label="联系电话">
+          <el-input v-model="revieseStudent.Sphone"></el-input>
+        </el-form-item>
+        <div></div>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="postEdit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -66,44 +91,59 @@
   import searchStudent from 'components/studentSM/searchStudent'
 
   export default {
-    methods: {
-      handleClick(row) {
-        console.log(row);
-      }
-    },
-
     data() {
       return {
-        tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
+        studentData: [
+        ],
+        revieseStudent: {
+          Sno: "",
+          Sname: "",
+          Ssex: "",
+          Sbirth: "",
+          Sid: "",
+          Spolitic: "",
+          Scome: "",
+          Sminzu: "",
+          Sjiguan: "",
+          Sdistrist: "",
+          Sphone: ""
+        },
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        formLabelWidth: '120px'
       }
+    },
+    methods: {
+      handleEdit(index, row) {
+//        console.log(index, row);
+        this.dialogFormVisible = true
+        this.revieseStudent = this.studentData[index]
+        console.log(this.revieseStudent)
+      },
+      postEdit() {
+        this.dialogFormVisible = false
+        this.$axios({
+          method: 'post',
+          url: 'http://localhost:3000/reviseStudent',
+          data: this.revieseStudent
+        })
+        this.getStudent()
+      },
+      getStudent() {
+        const that = this
+        this.$axios.get('http://localhost:3000/searchStudent')
+          .then(function (response) {
+            console.log(response);
+            that.studentData = response.data.data
+            console.log(studentData)
+          })
+          .catch(function (response) {
+            console.log(response);
+          })
+      }
+    },
+    created: function () {
+      this.getStudent()
     }
   }
 </script>
