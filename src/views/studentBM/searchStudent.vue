@@ -49,7 +49,8 @@
       return {
         currentPage: 1,
         studentData: [
-        ]
+        ],
+        loading: true
       }
     },
     methods: {
@@ -65,6 +66,7 @@
           .then(function (response) {
             console.log(response);
             that.studentData = response.data.data
+            this.loading = false
             console.log(studentData)
           })
           .catch(function (response) {

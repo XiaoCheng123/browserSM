@@ -95,7 +95,7 @@
           url: 'http://localhost:3000/reviseGrade',
           data: this.newGrade
         })
-        this.getStudent()
+//        this.getStudent()
       },
       getStudent() {
         const that = this
